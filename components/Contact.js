@@ -58,7 +58,7 @@ export default function Contact() {
                       <div className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-br from-red-600 to-red-800 dark:from-yellow-700 dark:to-yellow-900 text-white text-lg"><i className="fas fa-phone-alt"></i></div>
                       <div>
                         <h4 className="font-semibold text-red-600 dark:text-yellow-400 mb-1">Phone</h4>
-                        <p className="text-gray-700 dark:text-gray-200 text-sm">0000911319 (24/7)</p>
+                        <p className="text-gray-700 dark:text-gray-200 text-sm">0009113194 (24/7)</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
