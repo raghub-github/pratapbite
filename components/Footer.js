@@ -59,14 +59,14 @@ export default function Footer() {
               <li><a href="#" className="flex items-center gap-2 text-white/80 hover:text-white transition font-medium text-[0.95rem]"><i className="fas fa-chevron-right text-[#e63946] w-[18px]"></i> Grocery Store</a></li>
               <li><a href="#" className="flex items-center gap-2 text-white/80 hover:text-white transition font-medium text-[0.95rem]"><i className="fas fa-chevron-right text-[#e63946] w-[18px]"></i> Pharmacy</a></li>
               <li><a href="#" className="flex items-center gap-2 text-white/80 hover:text-white transition font-medium text-[0.95rem]"><i className="fas fa-chevron-right text-[#e63946] w-[18px]"></i> Stationery</a></li>
-              <li><a href="#" className="flex items-center gap-2 text-white/80 hover:text-white transition font-medium text-[0.95rem]"><i className="fas fa-chevron-right text-[#e63946] w-[18px]"></i> API Integration</a></li>
+              <li><a href="#" className="flex items-center gap-2 text-white/80 hover:text-white transition font-medium text-[0.95rem]"><i className="fas fa-chevron-right text-[#e63946] w-[18px]"></i> 3rd party API Integration</a></li>
               <li><a href="https://pratapandsongroup.com/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/80 hover:text-white transition font-medium text-[0.95rem]"><i className="fas fa-chevron-right text-[#e63946] w-[18px]"></i> Parent Company</a></li>
             </ul>
             <div className="social-links flex gap-3 mt-6">
-              <a href="#" className="social-link w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-[#e63946] hover:to-[#c1121f] hover:shadow-lg transition text-white text-lg"><i className="fab fa-facebook-f"></i></a>
-              <a href="#" className="social-link w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-[#e63946] hover:to-[#c1121f] hover:shadow-lg transition text-white text-lg"><i className="fab fa-twitter"></i></a>
+              <a href="https://www.facebook.com/pratapsons10" target="_blank" rel="noopener noreferrer" className="social-link w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-[#e63946] hover:to-[#c1121f] hover:shadow-lg transition text-white text-lg"><i className="fab fa-facebook-f"></i></a>
+              <a href="" className="social-link w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-[#e63946] hover:to-[#c1121f] hover:shadow-lg transition text-white text-lg"><i className="fab fa-twitter"></i></a>
               <a href="#" className="social-link w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-[#e63946] hover:to-[#c1121f] hover:shadow-lg transition text-white text-lg"><i className="fab fa-instagram"></i></a>
-              <a href="#" className="social-link w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-[#e63946] hover:to-[#c1121f] hover:shadow-lg transition text-white text-lg"><i className="fab fa-linkedin-in"></i></a>
+              <a href="https://www.linkedin.com/in/pratapandsons/" target="_blank" className="social-link w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-[#e63946] hover:to-[#c1121f] hover:shadow-lg transition text-white text-lg"><i className="fab fa-linkedin-in"></i></a>
             </div>
           </div>
         </div>
