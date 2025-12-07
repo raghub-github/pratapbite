@@ -1,0 +1,2426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pratap's Bite - Lowest Commission Delivery Platform</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="img/p&b logo.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Light/Dark Mode */
+        :root {
+            --primary-color: #e63946;
+            --primary-dark: #c1121f;
+            --secondary-color: #1d3557;
+            --secondary-light: #2a4b8d;
+            --accent-color: #2a9d8f;
+            --accent-light: #44c9b3;
+            --light-color: #f8f9fa;
+            --light-gray: #f1f3f5;
+            --dark-color: #212529;
+            --gray-light: #e9ecef;
+            --gray-medium: #adb5bd;
+            --gray-dark: #495057;
+            --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+            --border-radius: 10px;
+            --border-radius-lg: 16px;
+            --container-padding: 1.5rem;
+            --section-spacing: 2.5rem;
+        }
+
+        .dark-mode {
+            --primary-color: #ff6b6b;
+            --primary-dark: #ff5252;
+            --secondary-color: #4d648d;
+            --secondary-light: #5d7bb5;
+            --accent-color: #44c9b3;
+            --accent-light: #5fe8d0;
+            --light-color: #121212;
+            --light-gray: #1e1e1e;
+            --dark-color: #f8f9fa;
+            --gray-light: #2d2d2d;
+            --gray-medium: #555;
+            --gray-dark: #bbb;
+            --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+
+        .dark-mode ::-webkit-scrollbar-track {
+            background: var(--gray-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        section {
+            padding: var(--section-spacing) 0;
+        }
+
+        h1, h2, h3, h4, h5 {
+            color: var(--secondary-color);
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        p {
+            margin-bottom: 0.75rem;
+            color: var(--gray-dark);
+            font-size: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.8rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-align: center;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.25);
+        }
+
+        .btn:hover::before {
+            opacity: 1;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
+        }
+
+        .btn-secondary::before {
+            background: linear-gradient(135deg, var(--secondary-light), var(--secondary-color));
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 10px 20px rgba(29, 53, 87, 0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn i {
+            font-size: 1rem;
+        }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        /* Header & Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(248, 249, 250, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        .dark-mode header {
+            background-color: rgba(18, 18, 18, 0.98);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            padding: 3px;
+            background: white;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-main {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--secondary-color);
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .logo-sub {
+            font-size: 0.75rem;
+            color: var(--gray-medium);
+            font-weight: 500;
+            margin-top: 0.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            font-size: 0.95rem;
+            color: var(--gray-dark);
+            padding: 0.3rem 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+            border-radius: 1px;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(230, 57, 70, 0.1);
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-color);
+            background-color: rgba(230, 57, 70, 0.2);
+            transform: rotate(30deg);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--secondary-color);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(230, 57, 70, 0.1);
+        }
+
+        .mobile-menu-btn:hover {
+            background-color: rgba(230, 57, 70, 0.2);
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: none;
+            border: none;
+            color: var(--gray-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .dropdown-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--light-color);
+            min-width: 220px;
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--border-radius);
+            z-index: 1000;
+            margin-top: 0.8rem;
+            overflow: hidden;
+            border: 1px solid var(--gray-light);
+            padding: 0.5rem 0;
+        }
+
+        .dropdown:hover .dropdown-content,
+        .dropdown-content:hover {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--dark-color);
+            padding: 0.7rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-content a i {
+            width: 18px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: var(--light-color);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            max-width: 800px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            color: var(--gray-medium);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background-color: rgba(230, 57, 70, 0.1);
+            color: var(--primary-color);
+        }
+
+        /* Hero Section - COMPACT */
+        .hero {
+            padding-top: 1.5rem;
+            padding-bottom: 2rem;
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.03) 0%, rgba(29, 53, 87, 0.03) 100%);
+            position: relative;
+            overflow: hidden;
+            margin-top: 1.5rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 60%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(230, 57, 70, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .hero-text h1 span {
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-text h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: rgba(230, 57, 70, 0.15);
+            z-index: -1;
+            border-radius: 4px;
+        }
+
+        .hero-text p {
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+            color: var(--gray-dark);
+            max-width: 500px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-image {
+            position: relative;
+            text-align: center;
+        }
+
+       .hero-image img {
+           border-radius: var(--border-radius-lg);
+           box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+           animation: float 6s ease-in-out infinite;
+           max-width: 250px;
+           border: 2px solid rgba(255, 255, 255, 0.2);
+           backdrop-filter: blur(6px);
+           transform: perspective(800px) rotateY(-8deg);
+           transition: 0.4s ease;
+           outline: 1px solid rgba(255, 255, 255, 0.35);
+           outline-offset: -6px;
+        }
+
+        .hero-image img:hover {
+            transform: perspective(800px) rotateY(0deg) scale(1.03);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+            border-color: rgba(255, 255, 255, 0.45);
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .dark-mode .stats {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(40, 40, 40, 0.7));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--gray-medium);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: perspective(800px) rotateY(-10deg) translateY(0); }
+            50% { transform: perspective(800px) rotateY(-10deg) translateY(-15px); }
+        }
+
+        /* Features Section */
+        .features {
+            background-color: var(--light-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background-color: var(--light-color);
+            padding: 1.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            text-align: center;
+            border-top: 4px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: inline-block;
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.1), rgba(42, 157, 143, 0.1));
+            border-radius: 50%;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+        }
+
+        /* dark mode bt  */
+
+        .dark-mode select.form-control {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 8px;
+    outline: none;
+    appearance: none;
+    transition: 0.3s ease;
+}
+
+.dark-mode select.form-control:hover {
+    border-color: #777;
+}
+
+.dark-mode select.form-control:focus {
+    border-color: #00bcd4;
+    box-shadow: 0 0 8px rgba(0, 188, 212, 0.4);
+}
+
+.dark-mode select.form-control option {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 8px;
+}
+
+
+        /* Delivery Options Section */
+        .delivery-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .delivery-card {
+            background-color: var(--light-color);
+            padding: 1.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            border-top: 4px solid var(--accent-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .delivery-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .delivery-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: inline-block;
+            width: 65px;
+            height: 65px;
+            line-height: 65px;
+            background: linear-gradient(135deg, rgba(42, 157, 143, 0.1), rgba(230, 57, 70, 0.1));
+            border-radius: 50%;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
+            color: white;
+            position: relative;
+            overflow: hidden;
+            padding: 2.5rem 0;
+        }
+
+        .why-choose-us h2,
+        .why-choose-us h3,
+        .why-choose-us h4 {
+            color: white;
+        }
+
+        .why-choose-us p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+
+        .benefit-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 1rem;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        /* Contact Form Section */
+        .contact-form-section {
+            background-color: var(--light-gray);
+            position: relative;
+            padding: 2.5rem 0;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, var(--light-color), rgba(255, 255, 255, 0.9));
+            padding: 1.8rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .dark-mode .contact-info {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(40, 40, 40, 0.7));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-details {
+            margin-top: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .contact-icon {
+            color: white;
+            font-size: 1.2rem;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .contact-form {
+            background: linear-gradient(135deg, var(--light-color), rgba(255, 255, 255, 0.9));
+            padding: 1.8rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .dark-mode .contact-form {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(40, 40, 40, 0.7));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: rgba(255, 255, 255, 0.5);
+            color: var(--dark-color);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .dark-mode .form-control {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+            background-color: white;
+        }
+
+        .dark-mode .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Delivery Dropdown */
+        .delivery-dropdown {
+            position: relative;
+            width: 100%;
+        }
+
+        .delivery-dropdown-btn {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0.5);
+            color: var(--dark-color);
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .dark-mode .delivery-dropdown-btn {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .delivery-dropdown-btn:hover {
+            border-color: var(--primary-color);
+        }
+
+        .delivery-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--light-color);
+            border: 2px solid var(--gray-light);
+            border-top: none;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            z-index: 10;
+            box-shadow: var(--shadow-md);
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .delivery-dropdown-content.show {
+            display: block;
+        }
+
+        .delivery-option {
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .delivery-option:hover {
+            background-color: rgba(230, 57, 70, 0.1);
+        }
+
+        .delivery-option:last-child {
+            border-bottom: none;
+        }
+
+        .delivery-option input {
+            width: 16px;
+            height: 16px;
+        }
+
+        .selected-options {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .selected-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .remove-tag {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .remove-tag:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Partner Benefits Section - Fixed for Light Mode */
+        .partner-benefits {
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.08), rgba(42, 157, 143, 0.08));
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .dark-mode .partner-benefits {
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.15), rgba(42, 157, 143, 0.15));
+        }
+
+        .partner-benefits h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .dark-mode .partner-benefits h4 {
+            color: white;
+        }
+
+        .partner-benefits p {
+            color: var(--gray-dark);
+            margin-bottom: 0;
+        }
+
+        .dark-mode .partner-benefits p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Footer - Enhanced Design */
+        footer {
+            background: linear-gradient(135deg, #0c1a3a, #1d3557);
+            color: white;
+            padding: 2.5rem 0 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-col h3 {
+            color: white;
+            margin-bottom: 1.2rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+            transform: translateX(3px);
+        }
+
+        .footer-links a i {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            width: 18px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            transform: translateY(-3px) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+        }
+
+        .footer-highlight {
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.15), rgba(42, 157, 143, 0.15));
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+            margin-top: 1.5rem;
+        }
+
+        .footer-highlight h4 {
+            color: white;
+            margin-bottom: 0.6rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-highlight p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
+
+        .footer-cta {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-cta h3 {
+            color: white;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-cta p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            padding: 2px;
+            background: white;
+        }
+
+        .footer-logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo-main {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: white;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .footer-logo-sub {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            margin-top: 0.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Marquee Element */
+        .marquee {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 0.8rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding-left: 100%;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .hero-btns {
+                justify-content: center;
+            }
+            
+            .hero-image {
+                order: -1;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .feature-cards {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--light-color);
+                flex-direction: column;
+                align-items: center;
+                padding: 1.5rem;
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-150%);
+                transition: var(--transition);
+                z-index: 999;
+                gap: 1rem;
+                border-top: 1px solid var(--gray-light);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .theme-toggle {
+                display: none;
+            }
+            
+            .nav-actions {
+                gap: 0.5rem;
+            }
+            
+            section {
+                padding: 2rem 0;
+            }
+            
+            .hero {
+                margin-top: 1rem;
+                padding-top: 1.5rem;
+                padding-bottom: 2rem;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                padding: 1rem;
+                max-width: 400px;
+            }
+            
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                border: none;
+                display: none;
+                width: 100%;
+                margin-top: 0.5rem;
+                padding-left: 1rem;
+            }
+            
+            .dropdown:hover .dropdown-content {
+                display: none;
+            }
+            
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+            
+            .feature-card,
+            .delivery-card,
+            .contact-info,
+            .contact-form {
+                padding: 1.5rem 1.2rem;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+            }
+            
+            .why-choose-us {
+                padding: 2rem 0;
+            }
+            
+            .contact-form-section {
+                padding: 2rem 0;
+            }
+            
+            footer {
+                padding: 2rem 0 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .hero-image img {
+                max-width: 100%;
+                border-width: 6px;
+            }
+            
+            .feature-cards,
+            .benefits,
+            .delivery-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+                max-width: 300px;
+            }
+            
+            .stat-item {
+                padding: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="img/p&b logo.png" alt="Pratap's Bite Logo" class="logo-img">
+                    <div class="logo-text">
+                        <div class="logo-main">Pratap's Bite</div>
+                        <div class="logo-sub">Pratap and Sons Group</div>
+                    </div>
+                </div>
+                
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#delivery" class="nav-link">Delivery</a></li>
+                    <li><a href="#why-choose-us" class="nav-link">Why Us</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link dropdown-btn">Documentation <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#" id="merchantDocBtn"><i class="fas fa-store"></i> Merchant Onboarding</a>
+                            <a href="#" id="integrationDocBtn"><i class="fas fa-code"></i> 3rd party rider's Integration</a>
+                        </div>
+                    </li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="https://pratapandsongroup.com/" target="_blank" class="nav-link">Core Ventures</a></li>
+                    <li class="theme-toggle-container" style="display: none;">
+                        <button class="theme-toggle" id="mobileThemeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Marquee Banner -->
+    <div class="marquee">
+        <div class="marquee-content">
+            🚀 India's Lowest Commission Delivery Platform • Save up to 50% on commissions compared to other platforms • 24/7 Partner Support • Flexible Delivery Options • Join 1000+ Successful Businesses •
+        </div>
+    </div>
+
+    <!-- Documentation Modal -->
+    <div class="modal" id="documentationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Documentation</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div id="modalContent">
+                <!-- Content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section - COMPACT -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>India's <span>Lowest Commission</span> Delivery Platform</h1>
+                    <p>Join India's most partner-friendly platform. Save significantly on commissions compared to other services. Maximize profits with our competitive rates.</p>
+                    <div class="hero-btns">
+                        <a href="#contact" class="btn"><i class="fas fa-handshake"></i> Become a Partner</a>
+                        <a href="#features" class="btn btn-secondary"><i class="fas fa-chart-line"></i> View Features</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="img/p&b logo.png" alt="Pratap's Bite Delivery Platform">
+                </div>
+            </div>
+            
+            <!-- Stats moved below the logo image -->
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Safe & Secure</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Support</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Partner Focused</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Core Features</h2>
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h3>Lowest Commission</h3>
+                    <p>Significantly lower commissions than other platforms. While others charge 20-30%, our rates are the most competitive.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Business Partnership</h3>
+                    <p>Partner with us for mutual growth. Comprehensive support, training, and resources for your business.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Multi-Vendor Integration</h3>
+                    <p>Seamlessly integrate restaurants, grocery stores, pharmacies, and stationery shops with easy setup.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Delivery Options Section -->
+    <section class="delivery" id="delivery">
+        <div class="container">
+            <h2 class="section-title">Delivery Solutions</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 1.5rem; font-size: 1.05rem;">Choose the delivery method that best fits your business needs.</p>
+            
+            <div class="delivery-options">
+                <div class="delivery-card">
+                    <div class="delivery-icon">
+                        <i class="fas fa-motorcycle"></i>
+                    </div>
+                    <h3>Our Fleet</h3>
+                    <p>Reliable delivery with our dedicated fleet. Timely deliveries with real-time tracking.</p>
+                </div>
+                
+                <div class="delivery-card">
+                    <div class="delivery-icon">
+                        <i class="fas fa-truck-loading"></i>
+                    </div>
+                    <h3>Self-Delivery</h3>
+                    <p>Use your own delivery system while leveraging our platform for orders and management.</p>
+                </div>
+                
+                <div class="delivery-card">
+                    <div class="delivery-icon">
+                        <i class="fas fa-walking"></i>
+                    </div>
+                    <h3>Customer Pickup</h3>
+                    <p>Zero delivery cost. Customers pick up orders directly from your store.</p>
+                </div>
+                
+                <div class="delivery-card">
+                    <div class="delivery-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Third-Party</h3>
+                    <p>Integrate existing delivery services with our platform for enhanced reach.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-us" id="why-choose-us">
+        <div class="container">
+            <h2 class="section-title">Why Choose Us</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 1.5rem; font-size: 1.05rem;">We're committed to being the most partner-friendly platform in the market.</p>
+            
+            <div class="benefits">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Maximum Profits</h3>
+                    <p>While others charge 20-30% commissions, we offer significantly lower rates. Keep more earnings.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock assistance from our expert team. Technical support whenever you need it.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Growth Tools</h3>
+                    <p>Access to analytics, marketing tools, and insights to expand your business.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Partner With Us</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 2rem; font-size: 1.05rem;">Fill out this form and our team will contact you within 24 hours.</p>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Contact Info</h3>
+                    <p>Ready to grow your business? Contact us about partnership opportunities.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>0000911319 (24/7)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Location</h4>
+                                <p>Kolkata, India</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>pratapandsons10@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Partner Benefits Section - Fixed for Light Mode -->
+                    <div class="partner-benefits">
+                        <h4>Partner Benefits</h4>
+                        <p>Join thousands of successful businesses already growing with us. Lower commissions, better support.</p>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Registration Form</h3>
+                    <form id="partnerForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="restaurantName" class="form-label">Business Name *</label>
+                                <input type="text" id="restaurantName" class="form-control" placeholder="Enter business name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactPerson" class="form-label">Contact Person *</label>
+                                <input type="text" id="contactPerson" class="form-control" placeholder="Contact person name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Phone *</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="Phone number" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" id="email" class="form-control" placeholder="Email address" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="location" class="form-label">Business Address *</label>
+                            <input type="text" id="location" class="form-control" placeholder="Full business address" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="businessType" class="form-label">Business Type *</label>
+                            <select id="businessType" class="form-control" required>
+                                <option value="">Select business type</option>
+                                <option value="restaurant">Restaurant / Food Business</option>
+                                <option value="grocery">Grocery Store</option>
+                                <option value="pharmacy">Pharmacy / Medical Store</option>
+                                <option value="stationery">Stationery / Book Store</option>
+                                <option value="other">Other Business</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Delivery Options *</label>
+                            <div class="delivery-dropdown">
+                                <button type="button" class="delivery-dropdown-btn" id="deliveryDropdownBtn">
+                                    <span>Select delivery methods</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <div class="delivery-dropdown-content" id="deliveryDropdownContent">
+                                    <div class="delivery-option" data-value="ourRiders">
+                                        <input type="checkbox" id="opt1" class="delivery-checkbox">
+                                        <label for="opt1">Our Delivery Fleet</label>
+                                    </div>
+                                    <div class="delivery-option" data-value="selfDelivery">
+                                        <input type="checkbox" id="opt2" class="delivery-checkbox">
+                                        <label for="opt2">Merchant Self-Delivery</label>
+                                    </div>
+                                    <div class="delivery-option" data-value="customerPickup">
+                                        <input type="checkbox" id="opt3" class="delivery-checkbox">
+                                        <label for="opt3">Customer Pickup</label>
+                                    </div>
+                                    <div class="delivery-option" data-value="thirdParty">
+                                        <input type="checkbox" id="opt4" class="delivery-checkbox">
+                                        <label for="opt4">Third-Party Integration</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="selected-options" id="selectedOptions"></div>
+                            <input type="hidden" id="deliveryOptions" name="deliveryOptions" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Additional Information</label>
+                            <textarea id="message" class="form-control" rows="3" placeholder="Tell us about your business..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Submit Application
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-cta">
+                <h3>Start Saving Today</h3>
+                <p>Join India's fastest growing delivery platform with the lowest commissions in the market.</p>
+                <a href="#contact" class="btn" style="margin-top: 1rem;">
+                    <i class="fas fa-rocket"></i> Get Started Now
+                </a>
+            </div>
+            
+            <div class="footer-content">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="img/p&b logo.png" alt="Pratap's Bite Logo" class="footer-logo-img">
+                        <div class="footer-logo-text">
+                            <div class="footer-logo-main">Pratap's Bite</div>
+                            <div class="footer-logo-sub">Pratap and Sons Group</div>
+                        </div>
+                    </div>
+                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.2rem; font-size: 0.95rem;">India's most partner-friendly delivery platform offering the lowest commissions.</p>
+                    
+                    <div class="contact-item" style="color: rgba(255,255,255,0.8); margin-bottom: 0.8rem;">
+                        <div style="display: flex; align-items: flex-start; gap: 0.8rem;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--primary-color);"></i>
+                            <div>
+                                <strong>Address:</strong> Kolkata, India
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-item" style="color: rgba(255,255,255,0.8); margin-bottom: 0.8rem;">
+                        <div style="display: flex; align-items: flex-start; gap: 0.8rem;">
+                            <i class="fas fa-phone-alt" style="color: var(--primary-color);"></i>
+                            <div>
+                                <strong>Phone:</strong> 0000911319
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-item" style="color: rgba(255,255,255,0.8);">
+                        <div style="display: flex; align-items: flex-start; gap: 0.8rem;">
+                            <i class="fas fa-envelope" style="color: var(--primary-color);"></i>
+                            <div>
+                                <strong>Email:</strong> pratapandsons10@gmail.com
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#features"><i class="fas fa-chevron-right"></i> Features</a></li>
+                        <li><a href="#delivery"><i class="fas fa-chevron-right"></i> Delivery</a></li>
+                        <li><a href="#why-choose-us"><i class="fas fa-chevron-right"></i> Why Us</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="#" id="merchantDocBtn3"><i class="fas fa-chevron-right"></i> Merchant Docs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Business Solutions</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Restaurant</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Grocery Store</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Pharmacy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Stationery</a></li>
+                        <li><a href="#" id="integrationDocBtn3"><i class="fas fa-chevron-right"></i> API Integration</a></li>
+                        <!-- Parent Company Link -->
+                        <li><a href="https://pratapandsongroup.com/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-chevron-right"></i> Parent Company
+                        </a></li>
+                    </ul>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>Copyright &copy; 2025-26 Pratap's Bite | Pratap and Sons Group | All Rights Reserved</p>
+                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.6);">Lowest Commission • 24/7 Support • Flexible Delivery • Secure Platform</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark/Light Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const mobileThemeIcon = mobileThemeToggle ? mobileThemeToggle.querySelector('i') : null;
+        
+        const savedTheme = localStorage.getItem('theme') || 
+                          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            if (mobileThemeIcon) {
+                mobileThemeIcon.classList.remove('fa-moon');
+                mobileThemeIcon.classList.add('fa-sun');
+            }
+        }
+        
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                if (mobileThemeIcon) {
+                    mobileThemeIcon.classList.remove('fa-moon');
+                    mobileThemeIcon.classList.add('fa-sun');
+                }
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                if (mobileThemeIcon) {
+                    mobileThemeIcon.classList.remove('fa-sun');
+                    mobileThemeIcon.classList.add('fa-moon');
+                }
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        
+        themeToggle.addEventListener('click', toggleTheme);
+        if (mobileThemeToggle) {
+            mobileThemeToggle.addEventListener('click', toggleTheme);
+        }
+        
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.querySelector('.nav-links');
+        const themeToggleContainer = document.querySelector('.theme-toggle-container');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            // Show/hide theme toggle in mobile menu
+            if (window.innerWidth <= 768) {
+                themeToggleContainer.style.display = navLinks.classList.contains('active') ? 'block' : 'none';
+            }
+            
+            const menuIcon = mobileMenuBtn.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            } else {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                themeToggleContainer.style.display = 'none';
+                const menuIcon = mobileMenuBtn.querySelector('i');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') return;
+                
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add active class to nav links on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollY >= (sectionTop - 120)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Delivery Dropdown Functionality
+        const deliveryDropdownBtn = document.getElementById('deliveryDropdownBtn');
+        const deliveryDropdownContent = document.getElementById('deliveryDropdownContent');
+        const selectedOptionsContainer = document.getElementById('selectedOptions');
+        const deliveryOptionsInput = document.getElementById('deliveryOptions');
+        const deliveryCheckboxes = document.querySelectorAll('.delivery-checkbox');
+        
+        let selectedOptions = [];
+        
+        deliveryDropdownBtn.addEventListener('click', () => {
+            deliveryDropdownContent.classList.toggle('show');
+        });
+        
+        // Fixed: Keep dropdown open when hovering over content
+        deliveryDropdownContent.addEventListener('mouseenter', () => {
+            deliveryDropdownContent.classList.add('show');
+        });
+        
+        deliveryDropdownContent.addEventListener('mouseleave', () => {
+            deliveryDropdownContent.classList.remove('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!deliveryDropdownBtn.contains(e.target) && !deliveryDropdownContent.contains(e.target)) {
+                deliveryDropdownContent.classList.remove('show');
+            }
+        });
+        
+        // Handle checkbox selection
+        deliveryCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                e.stopPropagation();
+                const option = checkbox.closest('.delivery-option');
+                const value = option.dataset.value;
+                const label = option.querySelector('label').textContent;
+                
+                if (checkbox.checked) {
+                    if (!selectedOptions.some(opt => opt.value === value)) {
+                        selectedOptions.push({ value, label });
+                    }
+                } else {
+                    selectedOptions = selectedOptions.filter(opt => opt.value !== value);
+                }
+                
+                updateSelectedOptionsDisplay();
+                updateDeliveryOptionsInput();
+            });
+        });
+        
+        function updateSelectedOptionsDisplay() {
+            selectedOptionsContainer.innerHTML = '';
+            
+            if (selectedOptions.length === 0) {
+                const placeholder = document.createElement('div');
+                placeholder.textContent = 'No delivery options selected';
+                placeholder.style.color = 'var(--gray-medium)';
+                placeholder.style.fontSize = '0.85rem';
+                placeholder.style.fontStyle = 'italic';
+                selectedOptionsContainer.appendChild(placeholder);
+                return;
+            }
+            
+            selectedOptions.forEach(option => {
+                const tag = document.createElement('div');
+                tag.className = 'selected-tag';
+                tag.innerHTML = `
+                    ${option.label}
+                    <button type="button" class="remove-tag" data-value="${option.value}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                selectedOptionsContainer.appendChild(tag);
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-tag').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const value = button.dataset.value;
+                    selectedOptions = selectedOptions.filter(opt => opt.value !== value);
+                    
+                    // Uncheck the corresponding checkbox
+                    const checkbox = document.querySelector(`.delivery-checkbox[data-value="${value}"]`);
+                    if (checkbox) {
+                        checkbox.checked = false;
+                    }
+                    
+                    updateSelectedOptionsDisplay();
+                    updateDeliveryOptionsInput();
+                });
+            });
+        }
+        
+        function updateDeliveryOptionsInput() {
+            const values = selectedOptions.map(opt => opt.value);
+            deliveryOptionsInput.value = values.join(',');
+            
+            // Update validation
+            if (values.length > 0) {
+                deliveryOptionsInput.setCustomValidity('');
+                deliveryDropdownBtn.innerHTML = `<span>${selectedOptions.length} option(s) selected</span> <i class="fas fa-chevron-down"></i>`;
+            } else {
+                deliveryOptionsInput.setCustomValidity('Please select at least one delivery option');
+                deliveryDropdownBtn.innerHTML = `<span>Select delivery options</span> <i class="fas fa-chevron-down"></i>`;
+            }
+        }
+        
+        // Documentation Modal
+        const documentationModal = document.getElementById('documentationModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        
+        // Merchant Documentation Content
+        const merchantDocContent = `
+            <div class="doc-section">
+                <h4>Merchant Onboarding Process</h4>
+                <p>Simple 4-step process to get started:</p>
+                <ol style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                    <li style="margin-bottom: 0.8rem;"><strong>Registration:</strong> Fill out the partner registration form</li>
+                    <li style="margin-bottom: 0.8rem;"><strong>Verification:</strong> Business verification within 24 hours</li>
+                    <li style="margin-bottom: 0.8rem;"><strong>Setup:</strong> Account setup and menu upload</li>
+                    <li><strong>Go Live:</strong> Start receiving orders</li>
+                </ol>
+            </div>
+            
+            <div class="doc-section">
+                <h4>Commission Advantage</h4>
+                <p>Unlike other platforms that charge 20-30% commissions, we offer significantly lower rates to maximize your profits.</p>
+                <div style="background: linear-gradient(135deg, rgba(230, 57, 70, 0.1), rgba(42, 157, 143, 0.1)); padding: 1.2rem; border-radius: var(--border-radius); margin: 1.2rem 0;">
+                    <h5 style="color: var(--primary-color); margin-bottom: 0.8rem;">Key Benefits:</h5>
+                    <ul style="margin-left: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">Lower commissions than any major platform</li>
+                        <li style="margin-bottom: 0.5rem;">Transparent pricing with no hidden fees</li>
+                        <li>Weekly settlements with detailed reports</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+        
+        // API Integration Documentation Content
+        const integrationDocContent = `
+            <div class="doc-section">
+                <h4>API Integration Overview</h4>
+                <p>Seamlessly integrate your existing systems with our platform using our developer-friendly API.</p>
+            </div>
+            
+            <div class="doc-section">
+                <h4>Getting Started</h4>
+                <ol style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                    <li style="margin-bottom: 0.8rem;"><strong>Request API Access:</strong> Contact our technical team</li>
+                    <li style="margin-bottom: 0.8rem;"><strong>Sandbox Testing:</strong> Test in our sandbox environment</li>
+                    <li style="margin-bottom: 0.8rem;"><strong>Development:</strong> Implement our API endpoints</li>
+                    <li><strong>Go Live:</strong> Deploy to production</li>
+                </ol>
+            </div>
+            
+            <div class="doc-section">
+                <h4>Available Endpoints</h4>
+                <div style="background: linear-gradient(135deg, rgba(29, 53, 87, 0.1), rgba(42, 157, 143, 0.1)); padding: 1.2rem; border-radius: var(--border-radius); margin: 1.2rem 0;">
+                    <ul style="margin-left: 1.5rem;">
+                        <li style="margin-bottom: 0.8rem;"><strong>Order Management:</strong> Create, update, track orders</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Menu Management:</strong> Sync product catalogs</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Inventory:</strong> Real-time stock updates</li>
+                        <li><strong>Analytics:</strong> Business insights and metrics</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+        
+        // Function to open modal with specific content
+        function openModal(title, content) {
+            modalTitle.textContent = title;
+            modalContent.innerHTML = content;
+            documentationModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Function to close modal
+        function closeModalFunc() {
+            documentationModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Event listeners for merchant documentation buttons
+        ['merchantDocBtn', 'merchantDocBtn3'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal('Merchant Onboarding Documentation', merchantDocContent);
+                });
+            }
+        });
+        
+        // Event listeners for integration documentation buttons
+        ['integrationDocBtn', 'integrationDocBtn3'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal('API Integration Documentation', integrationDocContent);
+                });
+            }
+        });
+        
+        // Close modal events
+        closeModal.addEventListener('click', closeModalFunc);
+        documentationModal.addEventListener('click', (e) => {
+            if (e.target === documentationModal) {
+                closeModalFunc();
+            }
+        });
+        
+        // Form Submission
+        const partnerForm = document.getElementById('partnerForm');
+        
+        partnerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const formData = {
+                restaurantName: document.getElementById('restaurantName').value,
+                contactPerson: document.getElementById('contactPerson').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                location: document.getElementById('location').value,
+                businessType: document.getElementById('businessType').value,
+                deliveryOptions: document.getElementById('deliveryOptions').value,
+                message: document.getElementById('message').value,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            // Validation
+            if (!formData.restaurantName || !formData.contactPerson || !formData.phone || !formData.email || !formData.location || !formData.businessType || !formData.deliveryOptions) {
+                alert('Please fill in all required fields marked with *');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = partnerForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Show success message
+                alert(`Thank you ${formData.contactPerson}! Your partnership application for "${formData.restaurantName}" has been submitted successfully.\n\nOur team will contact you at ${formData.phone} within 24 hours.`);
+                
+                // Reset form
+                partnerForm.reset();
+                selectedOptions = [];
+                updateSelectedOptionsDisplay();
+                updateDeliveryOptionsInput();
+                
+            } catch (error) {
+                alert('There was an error submitting your application. Please try again or contact us directly at pratapandsons10@gmail.com');
+                console.error('Form submission error:', error);
+            } finally {
+                // Restore button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Initialize selected options display
+        updateSelectedOptionsDisplay();
+        
+        // Fixed dropdown hover functionality
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+            const dropdownContent = dropdown.querySelector('.dropdown-content');
+            
+            // Keep dropdown open when hovering over dropdown
+            dropdown.addEventListener('mouseenter', () => {
+                if (window.innerWidth > 768) {
+                    dropdownContent.style.display = 'block';
+                }
+            });
+            
+            dropdown.addEventListener('mouseleave', () => {
+                if (window.innerWidth > 768) {
+                    setTimeout(() => {
+                        if (!dropdown.matches(':hover') && !dropdownContent.matches(':hover')) {
+                            dropdownContent.style.display = 'none';
+                        }
+                    }, 200);
+                }
+            });
+            
+            // Keep dropdown content open when hovering over it
+            dropdownContent.addEventListener('mouseenter', () => {
+                dropdownContent.style.display = 'block';
+            });
+            
+            dropdownContent.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    if (!dropdown.matches(':hover') && !dropdownContent.matches(':hover')) {
+                        dropdownContent.style.display = 'none';
+                    }
+                }, 200);
+            });
+        });
+        
+        // Mobile dropdown toggle
+        document.querySelectorAll('.dropdown-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    const dropdown = this.closest('.dropdown');
+                    const dropdownContent = dropdown.querySelector('.dropdown-content');
+                    
+                    // Close other dropdowns
+                    document.querySelectorAll('.dropdown-content').forEach(content => {
+                        if (content !== dropdownContent) {
+                            content.style.display = 'none';
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    if (dropdownContent.style.display === 'block') {
+                        dropdownContent.style.display = 'none';
+                    } else {
+                        dropdownContent.style.display = 'block';
+                    }
+                }
+            });
+        });
+        
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.feature-card, .delivery-card, .benefit-card, .partner-benefits');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = "1";
+                    element.style.transform = "translateY(0)";
+                }
+            });
+        }
+        
+        // Set initial state for animated elements
+        document.querySelectorAll('.feature-card, .delivery-card, .benefit-card, .partner-benefits').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(30px)";
+            el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        // Trigger once on load
+        setTimeout(animateOnScroll, 100);
+    </script>
+</body>
+</html>
