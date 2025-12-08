@@ -78,7 +78,7 @@ export default function Contact() {
                   </div>
                   <div className="bg-gradient-to-br from-red-50 to-teal-50 dark:from-yellow-900 dark:to-gray-800 p-4 rounded-lg border-l-4 border-red-600 dark:border-yellow-400 mt-4">
                     <h4 className="font-bold text-blue-900 dark:text-white mb-1">Partner Benefits</h4>
-                    <p className="text-gray-700 dark:text-gray-200 text-sm">Join thousands of successful businesses already growing with us. Lower commissions, better support.</p>
+                    <p className="text-gray-700 dark:text-gray-200 text-sm">Grow your business faster with our zero-commission platform, 21 days of free service, and a complimentary advertising package that gives your brand the spotlight it deserves.</p>
                   </div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md border border-gray-100 dark:border-gray-700">
