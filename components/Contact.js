@@ -116,6 +116,7 @@ export default function Contact() {
                         <option value="grocery">Grocery Store</option>
                         <option value="pharmacy">Pharmacy / Medical Store</option>
                         <option value="stationery">Stationery / Book Store</option>
+                        <option value="3pl">3PL / Logistics Provider</option>
                         <option value="other">Other Business</option>
                       </select>
                     </div>

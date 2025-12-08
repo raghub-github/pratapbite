@@ -32,6 +32,19 @@ export default function Hero() {
       setTimeout(() => {
         setCurrentImage(nextImage);
 
+        // -------------------------------
+        // ⭐ FIX: After last ad -> show logo -> restart ⭐
+        // -------------------------------
+        if (index === ads.length - 1) {
+          setTimeout(() => {
+            setCurrentImage(logo);
+            setIndex(0);
+            setNextImage(ads[0]);
+          }, 1500); // delay before showing logo
+          setTransitioning(false);
+          return;
+        }
+
         const nextIdx = (index + 1) % ads.length;
         setIndex(nextIdx);
         setNextImage(ads[nextIdx]);
@@ -63,7 +76,6 @@ export default function Hero() {
     >
       <div className="max-w-6xl mx-auto px-6">
 
-        {/* GRID */}
         <div className="grid md:grid-cols-2 gap-20 items-center">
 
           {/* LEFT TEXT */}
@@ -106,7 +118,6 @@ export default function Hero() {
               </a>
             </div>
 
-            {/* ⭐⭐⭐ STATS DIRECTLY UNDER MAIN TEXT ⭐⭐⭐ */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 bg-white/80 dark:bg-gray-900/80 
               backdrop-blur-md rounded-xl shadow p-6 max-w-xl border 
               border-white/30 dark:border-yellow-900/30 animate-fade-in-up">
@@ -142,7 +153,6 @@ export default function Hero() {
 
           {/* RIGHT SIDE ADS */}
           <div className="hidden md:flex justify-end relative w-[300px] h-[400px] md:ml-auto">
-            {/* Current Image */}
             <img
               src={currentImage}
               alt="Display"
@@ -155,7 +165,6 @@ export default function Hero() {
                 } cursor-pointer`}
             />
 
-            {/* Next Image */}
             {transitioning && nextImage && (
               <img
                 src={nextImage}
