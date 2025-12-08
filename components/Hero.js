@@ -74,9 +74,9 @@ export default function Hero() {
                 after:block after:absolute after:bottom-1 after:left-0 
                 after:w-full after:h-2 after:bg-red-200 dark:after:bg-yellow-900 
                 after:rounded-md after:-z-10">
-                Lowest Commission
+                Lowest Commission .
               </span>{" "}
-              Delivery Platform
+              Delivery Platform .
             </h1>
 
             <p className="text-gray-700 dark:text-gray-200 text-lg mb-6 max-w-lg">
