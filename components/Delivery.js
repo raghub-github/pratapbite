@@ -6,9 +6,9 @@ export default function Delivery() {
 
   const cards = [
     {
-      title: "Pratapbits Delivery Fleet",
+      title: "Pratapbite's Delivery Fleet",
       icon: "fas fa-motorcycle",
-      desc: "Reliable delivery with Pratapbits dedicated fleet.",
+      desc: "Reliable delivery with Pratapbite's dedicated fleet.",
       details: [
         { icon: "fas fa-clock", text: "Fast & timely deliveries" },
         { icon: "fas fa-location-arrow", text: "Real-time order tracking" },
