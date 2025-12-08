@@ -10,6 +10,7 @@ export default function Hero() {
   const [index, setIndex] = useState(-1);
   const [transitioning, setTransitioning] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [popupImage, setPopupImage] = useState(null); // ⭐ FIXED
   const intervalRef = useRef(null);
 
   // Start cycle after initial delay
@@ -32,15 +33,13 @@ export default function Hero() {
       setTimeout(() => {
         setCurrentImage(nextImage);
 
-        // -------------------------------
-        // ⭐ FIX: After last ad -> show logo -> restart ⭐
-        // -------------------------------
+        // After last ad → show logo → restart
         if (index === ads.length - 1) {
           setTimeout(() => {
             setCurrentImage(logo);
             setIndex(0);
             setNextImage(ads[0]);
-          }, 1500); // delay before showing logo
+          }, 1500);
           setTransitioning(false);
           return;
         }
@@ -55,19 +54,51 @@ export default function Hero() {
     return () => clearInterval(intervalRef.current);
   }, [index, nextImage, isModalOpen]);
 
-  const openModal = () => {
+  // ⭐ FIXED: open popup with clicked image
+  const openModal = (img) => {
+    setPopupImage(img);
     setIsModalOpen(true);
     clearInterval(intervalRef.current);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    if (index !== -1) {
-      setNextImage(ads[index]);
-    } else {
-      setNextImage(logo);
-    }
   };
+
+  // ⭐ Number Animation for Stats
+  useEffect(() => {
+    const counters = document.querySelectorAll(".counter");
+
+    const animateNumbers = () => {
+      counters.forEach(counter => {
+        const target = +counter.getAttribute("data-target");
+        let count = 0;
+        const speed = 20;
+
+        const update = () => {
+          if (count < target) {
+            count++;
+            counter.textContent = target === 24 ? `${count}/7` : `${count}%`;
+            requestAnimationFrame(update);
+          }
+        };
+
+        update();
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          animateNumbers();
+        }
+      },
+      { threshold: 0.4 }
+    );
+
+    const section = document.querySelector(".stats-boxes");
+    if (section) observer.observe(section);
+  }, []);
 
   return (
     <section
@@ -118,32 +149,27 @@ export default function Hero() {
               </a>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 bg-white/80 dark:bg-gray-900/80 
+            {/* ⭐ ANIMATED STATS BOXES */}
+            <div className="stats-boxes grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 bg-white/80 dark:bg-gray-900/80 
               backdrop-blur-md rounded-xl shadow p-6 max-w-xl border 
               border-white/30 dark:border-yellow-900/30 animate-fade-in-up">
 
-              <div className="text-center">
-                <span className="block text-2xl font-extrabold text-red-600 dark:text-yellow-400 mb-1">
-                  100%
-                </span>
+              <div className="text-center animate-stats">
+                <span className="block text-2xl font-extrabold text-red-600 dark:text-yellow-400 mb-1 counter" data-target="100">0%</span>
                 <span className="text-sm font-semibold text-gray-500 dark:text-gray-300">
                   Safe & Secure
                 </span>
               </div>
 
-              <div className="text-center">
-                <span className="block text-2xl font-extrabold text-red-600 dark:text-yellow-400 mb-1">
-                  24/7
-                </span>
+              <div className="text-center animate-stats">
+                <span className="block text-2xl font-extrabold text-red-600 dark:text-yellow-400 mb-1 counter" data-target="24">0/7</span>
                 <span className="text-sm font-semibold text-gray-500 dark:text-gray-300">
                   Support
                 </span>
               </div>
 
-              <div className="text-center">
-                <span className="block text-2xl font-extrabold text-red-600 dark:text-yellow-400 mb-1">
-                  100%
-                </span>
+              <div className="text-center animate-stats">
+                <span className="block text-2xl font-extrabold text-red-600 dark:text-yellow-400 mb-1 counter" data-target="100">0%</span>
                 <span className="text-sm font-semibold text-gray-500 dark:text-gray-300">
                   Partner Focused
                 </span>
@@ -156,7 +182,7 @@ export default function Hero() {
             <img
               src={currentImage}
               alt="Display"
-              onClick={openModal}
+              onClick={() => openModal(currentImage)} // ⭐ FIXED CLICK
               className={`absolute top-0 w-full h-full object-cover rounded-[20px] border-2 border-white/20 
                 shadow-[0_10px_30px_rgba(0,0,0,0.25)] outline outline-1 outline-white/35 
                 outline-offset-[-6px] backdrop-blur-[6px] transition-all duration-700 ease-in-out hover:scale-[1.05] 
@@ -172,7 +198,7 @@ export default function Hero() {
                 className="absolute top-0 w-full h-full object-cover rounded-[20px] border-2 border-white/20 
                   shadow-[0_10px_30px_rgba(0,0,0,0.25)] outline outline-1 outline-white/35 
                   outline-offset-[-6px] backdrop-blur-[6px] transition-transform duration-800 ease-in-out animate-slide-up cursor-pointer"
-                onClick={openModal}
+                onClick={() => openModal(nextImage)} // ⭐ FIXED CLICK
               />
             )}
           </div>
@@ -187,7 +213,7 @@ export default function Hero() {
         >
           <div className="relative" onClick={(e) => e.stopPropagation()}>
             <img
-              src={currentImage}
+              src={popupImage}
               alt="Popup"
               className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl"
             />
@@ -227,6 +253,10 @@ export default function Hero() {
         @keyframes fadeInUp {
           0% { opacity: 0; transform: translateY(25px); }
           100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-stats {
+          animation: fadeInUp 1s ease-out both;
         }
       `}</style>
     </section>
