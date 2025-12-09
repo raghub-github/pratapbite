@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function WhyChooseUs() {
   const [activeCard, setActiveCard] = useState(null);
@@ -37,6 +38,17 @@ export default function WhyChooseUs() {
     },
   ];
 
+  // Animation variants
+  const containerVariants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.2 } },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.9, rotate: -2 },
+    visible: { opacity: 1, y: 0, scale: 1, rotate: 0, transition: { duration: 0.8, ease: "easeOut" } },
+  };
+
   return (
     <section
       id="why-choose-us"
@@ -49,42 +61,53 @@ export default function WhyChooseUs() {
         </h2>
 
         <p className="text-center max-w-2xl mx-auto mb-10 text-white/90 dark:text-gray-200">
-          We're committed to being the most partner-friendly platform in the
-          market.
+          We're committed to being the most partner-friendly platform in the market.
         </p>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <motion.div
+          className="grid md:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {cards.map((card, index) => (
-            <div
+            <motion.div
               key={index}
               onClick={() => setActiveCard(card)}
-              className="cursor-pointer bg-white/10 dark:bg-gray-800/80 p-8 rounded-xl border border-white/20 dark:border-yellow-900 text-center backdrop-blur-md transition hover:-translate-y-2 hover:bg-white/20 dark:hover:bg-yellow-900/20"
+              variants={cardVariants}
+              whileHover={{ y: -8, scale: 1.05, boxShadow: "0px 20px 40px rgba(0,0,0,0.3)", transition: { duration: 0.3 } }}
+              className="cursor-pointer bg-white/10 dark:bg-gray-800/80 p-8 rounded-xl border border-white/20 dark:border-yellow-900 text-center backdrop-blur-md transition-transform"
             >
-              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/20 dark:bg-yellow-900 mx-auto mb-3 text-2xl text-white dark:text-yellow-400">
+              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/20 dark:bg-yellow-900 mx-auto mb-3 text-2xl text-white dark:text-yellow-400 shadow-inner">
                 <i className={card.icon}></i>
               </div>
-              <h3 className="font-bold text-lg mb-2 text-white dark:text-yellow-400">
-                {card.title}
-              </h3>
+              <h3 className="font-bold text-lg mb-2 text-white dark:text-yellow-400">{card.title}</h3>
               <p className="text-white/90 dark:text-gray-200">{card.short}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Modal */}
         {activeCard && (
-          <div
+          <motion.div
             className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 0.3 } }}
+            exit={{ opacity: 0 }}
             onClick={() => setActiveCard(null)}
           >
-            <div
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1, transition: { duration: 0.4, ease: "easeOut" } }}
+              exit={{ opacity: 0, scale: 0.8 }}
               className="bg-white dark:bg-gray-900 p-6 rounded-xl w-full max-w-md shadow-xl relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
               <button
-                className="absolute top-3 right-3 text-gray-700 dark:text-gray-200 text-xl"
+                className="absolute top-3 right-3 text-gray-700 dark:text-gray-200 text-xl hover:text-red-600 dark:hover:text-yellow-400 transition"
                 onClick={() => setActiveCard(null)}
               >
                 ✕
@@ -95,25 +118,29 @@ export default function WhyChooseUs() {
                 <div className="text-3xl text-blue-700 dark:text-yellow-400">
                   <i className={activeCard.icon}></i>
                 </div>
-                <h3 className="text-xl font-bold text-blue-800 dark:text-white">
-                  {activeCard.title}
-                </h3>
+                <h3 className="text-xl font-bold text-blue-800 dark:text-white">{activeCard.title}</h3>
               </div>
 
               {/* Sub Points */}
-              <ul className="space-y-4">
+              <motion.ul
+                className="space-y-4"
+                initial="hidden"
+                animate="visible"
+                variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15 } } }}
+              >
                 {activeCard.details.map((item, i) => (
-                  <li
+                  <motion.li
                     key={i}
                     className="flex items-center gap-3 text-gray-700 dark:text-gray-200"
+                    variants={{ hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } } }}
                   >
                     <i className={`${item.icon} text-blue-600 dark:text-yellow-400`}></i>
                     <span>{item.text}</span>
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
-            </div>
-          </div>
+              </motion.ul>
+            </motion.div>
+          </motion.div>
         )}
       </div>
     </section>
