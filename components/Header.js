@@ -47,7 +47,7 @@ export default function Header() {
               <li><a href="#home" className="text-gray-700 dark:text-white hover:text-red-600 dark:hover:text-yellow-400 transition">Home</a></li>
               <li><a href="#features" className="text-gray-700 dark:text-white hover:text-red-600 dark:hover:text-yellow-400 transition">Features</a></li>
               <li><a href="#delivery" className="text-gray-700 dark:text-white hover:text-red-600 dark:hover:text-yellow-400 transition">Delivery</a></li>
-              <li><a href="#why-choose-us" className="text-gray-700 dark:text-white hover:text-red-600 dark:hover:text-yellow-400 transition">WhyUs?s</a></li>
+              <li><a href="#why-choose-us" className="text-gray-700 dark:text-white hover:text-red-600 dark:hover:text-yellow-400 transition">WhyUs?</a></li>
 
               <li className="relative">
                 <button
@@ -128,7 +128,7 @@ export default function Header() {
                  className="block py-2 text-gray-700 dark:text-white">Delivery</a>
 
               <a href="#why-choose-us" onClick={() => setMobileOpen(false)}
-                 className="block py-2 text-gray-700 dark:text-white">WhyUs?s</a>
+                 className="block py-2 text-gray-700 dark:text-white">WhyUs?</a>
 
               <button
                 className="w-full text-left py-2 text-gray-700 dark:text-white"
