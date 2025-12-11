@@ -39,7 +39,7 @@ export default function StarRating({
   const displayValue = hoverValue || value;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-3">
       <div 
         className="flex gap-1"
         onMouseLeave={handleMouseLeave}
@@ -52,29 +52,30 @@ export default function StarRating({
             onMouseEnter={() => handleMouseEnter(star)}
             disabled={readOnly}
             className={`
-              ${readOnly ? 'cursor-default' : 'cursor-pointer transition-transform hover:scale-110'}
+              ${readOnly ? 'cursor-default' : 'cursor-pointer transition-all duration-200 hover:scale-110'}
               ${sizeClasses[size]}
+              transform transition-transform
             `}
-            aria-label={`${star} star${star > 1 ? 's' : ''}`}
+            aria-label={`Rate ${star} ${star === 1 ? 'star' : 'stars'}`}
           >
             <FaStar
               className={`
                 ${star <= displayValue 
-                  ? 'text-yellow-400 fill-yellow-400' 
-                  : 'text-gray-300 fill-gray-300'
+                  ? 'text-yellow-400 fill-yellow-400 drop-shadow-[0_2px_4px_rgba(250,204,21,0.3)]' 
+                  : 'text-gray-300 dark:text-gray-600 fill-gray-300 dark:fill-gray-600'
                 }
-                transition-colors duration-150
+                transition-all duration-200
+                ${!readOnly && 'hover:drop-shadow-[0_2px_8px_rgba(250,204,21,0.4)]'}
               `}
             />
           </button>
         ))}
       </div>
       {showLabel && value > 0 && (
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          {value} {value === 1 ? 'star' : 'stars'}
+        <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+          {value.toFixed(1)} {value === 1 ? 'Star' : 'Stars'}
         </span>
       )}
     </div>
   );
 }
-

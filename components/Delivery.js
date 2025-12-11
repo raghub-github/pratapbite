@@ -7,7 +7,7 @@ export default function Delivery() {
 
   const cards = [
     {
-      title: "Pratapbite's Delivery Fleet",
+      title: "Gatimitra Delivery Services",
       icon: "fas fa-motorcycle",
       desc: "Reliable delivery with Pratapbite's dedicated fleet.",
       details: [
@@ -37,7 +37,7 @@ export default function Delivery() {
       ],
     },
     {
-      title: "Third-Party",
+      title: "External Logistics Integration",
       icon: "fas fa-exchange-alt",
       desc: "Integrate your preferred third-party delivery services.",
       details: [

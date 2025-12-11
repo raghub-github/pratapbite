@@ -272,7 +272,7 @@ export default function Contact() {
                   className="w-full p-3 rounded-lg bg-gray-800 border border-gray-600 text-white"
                 >
                   <option>Select delivery option</option>
-                  <option>Our Delivery Fleet</option>
+                  <option>Gatimitra Delivery Services</option>
                   <option>Merchant Self-Delivery</option>
                   <option>Customer Pickup</option>
                   <option>Third-Party Integration</option>

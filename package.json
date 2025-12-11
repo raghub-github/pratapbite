@@ -11,10 +11,13 @@
     "create-registrations-table": "node scripts/create-registrations-table.js"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.87.1",
     "aos": "^2.3.4",
+    "drizzle-orm": "^0.45.1",
     "framer-motion": "^12.23.25",
     "next": "14.2.0",
     "nodemailer": "^7.0.11",
+    "postgres": "^3.4.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^5.5.0"

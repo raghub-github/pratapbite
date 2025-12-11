@@ -152,7 +152,7 @@ export default function Hero() {
     { 
       text: "MX Onboarding", 
       icon: <BsPersonLinesFill />, 
-      url: "https://mxonboarding.pratapbite.com" 
+      url: "https://merchant.pratapbite.com" 
     }, 
   ];
 
@@ -169,14 +169,14 @@ export default function Hero() {
             <h1 className="text-4xl md:text-5xl font-extrabold text-blue-900 dark:text-white leading-tight">
               India's{" "}
               <span className="relative text-red-600 dark:text-yellow-400 after:block after:absolute after:bottom-1 after:left-0 after:w-full after:h-2 after:bg-red-200 dark:after:bg-yellow-900 after:rounded-md after:-z-10">
-                Lowest Commission
+                Lowest Commission Based
               </span>{" "}
               Delivery Platform
             </h1>
 
             <p className="text-gray-700 dark:text-gray-300 text-lg max-w-lg">
-              Join India's most partner-friendly platform. Save commissions and maximise your profits.
-            </p>
+Empowering vendors with the lowest commission fees in India for maximum earnings.
+We help vendors earn more with the lowest commission rates in India.            </p>
 
             {/* CTA BUTTONS */}
             <div className="flex flex-wrap gap-4 mt-3">
