@@ -70,15 +70,36 @@ CREATE UNIQUE INDEX IF NOT EXISTS email_idx ON reviews(email);
       message: 'Database connection successful and reviews table exists!'
     });
   } catch (error) {
+    // Enhanced error message for DNS failures
+    const isDnsError = error.cause?.code === 'ENOTFOUND' || error.message?.includes('ENOTFOUND');
+    
     return NextResponse.json({
       success: false,
       error: error.message,
       code: error.code,
+      hostname: error.cause?.hostname,
       message: 'Failed to check database status',
-      troubleshooting: [
+      troubleshooting: isDnsError ? [
+        'The database hostname cannot be resolved. This usually means:',
+        '1. The connection string format is incorrect',
+        '2. The project reference or hostname is wrong',
+        '3. The Supabase project might be paused',
+        '',
+        'SOLUTION: Get the EXACT connection string from Supabase Dashboard:',
+        '1. Go to https://supabase.com/dashboard',
+        '2. Select your project',
+        '3. Go to Settings > Database',
+        '4. Under "Connection string", select "URI" format',
+        '5. Copy the connection string EXACTLY as shown',
+        '6. Replace [YOUR-PASSWORD] with your database password',
+        '7. Update DATABASE_URL in .env.local',
+        '',
+        'You can also test different formats at: /api/db-diagnose'
+      ] : [
         '1. Verify DATABASE_URL is set in .env.local',
         '2. Check database connection string format',
-        '3. Ensure database is accessible'
+        '3. Ensure database is accessible',
+        '4. Test connection formats at: /api/db-diagnose'
       ]
     }, { status: 500 });
   }

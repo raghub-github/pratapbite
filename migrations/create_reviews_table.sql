@@ -16,3 +16,4 @@ CREATE UNIQUE INDEX IF NOT EXISTS email_idx ON reviews(email);
 -- Add comment to table
 COMMENT ON TABLE reviews IS 'User reviews and feedback with star ratings';
 
+

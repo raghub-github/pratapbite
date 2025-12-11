@@ -27,3 +27,4 @@ CREATE INDEX IF NOT EXISTS registrations_created_at_idx ON registrations(created
 -- Add comment to table
 COMMENT ON TABLE registrations IS 'Partner registration applications from contact form';
 
+

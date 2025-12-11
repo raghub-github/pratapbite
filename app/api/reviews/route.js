@@ -33,6 +33,35 @@ export async function GET(req) {
   } catch (error) {
     console.error('Error fetching reviews:', error);
     
+    // Handle DNS/connection errors
+    if (error.cause?.code === 'ENOTFOUND' || error.message?.includes('ENOTFOUND') || error.cause?.hostname) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Database connection failed. The hostname cannot be resolved. Your DATABASE_URL format may be outdated.',
+          hostname: error.cause?.hostname,
+          currentFormat: process.env.DATABASE_URL?.replace(/:[^:@]+@/, ':****@'),
+          solution: 'Get the EXACT connection string from Supabase Dashboard (the format has changed):',
+          stepByStep: [
+            '1. Go to https://supabase.com/dashboard',
+            '2. Select your project',
+            '3. Click Settings (gear icon) → Database',
+            '4. Scroll to "Connection string" section',
+            '5. Select "URI" format (NOT JDBC)',
+            '6. IMPORTANT: Change "Method" dropdown from "Direct connection" to "Connection pooling"',
+            '7. Copy the connection string EXACTLY as shown (it will have pooler.supabase.com)',
+            '8. Replace [YOUR-PASSWORD] with your actual database password: Raghubhunia8159',
+            '9. Update DATABASE_URL in .env.local with the EXACT string',
+            '10. Restart your dev server (Ctrl+C then npm run dev)',
+            '',
+            '💡 TIP: Direct connection may fail due to IPv6/DNS issues. Connection pooling is more reliable.'
+          ],
+          data: []
+        },
+        { status: 500 }
+      );
+    }
+    
     // Handle table doesn't exist error
     if (error.code === '42P01' || error.message?.includes('does not exist') || error.cause?.message?.includes('does not exist')) {
       return NextResponse.json(
@@ -118,6 +147,29 @@ export async function POST(req) {
     return NextResponse.json({ success: true, message: 'Review submitted successfully!' });
   } catch (error) {
     console.error('Error submitting review:', error);
+    
+    // Handle DNS/connection errors
+    if (error.cause?.code === 'ENOTFOUND' || error.message?.includes('ENOTFOUND') || error.cause?.hostname) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Database connection failed. The hostname cannot be resolved. Your DATABASE_URL format may be outdated.',
+          hostname: error.cause?.hostname,
+          solution: 'Get the EXACT connection string from Supabase Dashboard:',
+          instructions: [
+            '1. Go to https://supabase.com/dashboard → Your Project → Settings → Database',
+            '2. Copy the "Connection string" (URI format) EXACTLY as shown',
+            '3. Replace [YOUR-PASSWORD] with your database password',
+            '4. Update DATABASE_URL in .env.local',
+            '5. Restart your dev server',
+            '',
+            '⚠️ The old format (db.[PROJECT-REF].supabase.co) no longer works.',
+            '⚠️ Use the new format from Supabase Dashboard which includes region.'
+          ]
+        },
+        { status: 500 }
+      );
+    }
     
     // Handle table doesn't exist error
     if (error.code === '42P01' || error.message?.includes('does not exist') || error.cause?.message?.includes('does not exist')) {
