@@ -35,7 +35,13 @@ const env = loadEnv();
 // Extract project ref from DATABASE_URL
 const dbUrl = env.DATABASE_URL || '';
 const projectRef = dbUrl.match(/postgres\.([^.]+)@/)?.?.[1] || dbUrl.match(/@aws-[^-]+-([^.]+)\.pooler/)?.?.[1] || 'xjtvpdwngewpgvzmwqzt';
-const password = dbUrl.match(/postgres(?:ql)?:\/\/[^:]+:([^@]+)@/)?.[1] || 'Raghubhunia8159';
+// Extract password from DATABASE_URL, but don't expose it in error messages
+const password = dbUrl.match(/postgres(?:ql)?:\/\/[^:]+:([^@]+)@/)?.[1];
+if (!password) {
+  console.error('Error: Could not extract password from DATABASE_URL');
+  console.error('Please ensure DATABASE_URL is set in .env.local');
+  process.exit(1);
+}
 
 // Test different connection formats
 const connectionFormats = [
@@ -61,8 +67,9 @@ async function testConnection(name, url) {
   console.log(`\nTesting: ${name}`);
   console.log(`URL: ${url.replace(/:[^:@]+@/, ':****@')}`);
   
+  let client = null;
   try {
-    const client = postgres(url, { 
+    client = postgres(url, { 
       max: 1, 
       ssl: 'require',
       connect_timeout: 5
@@ -72,7 +79,6 @@ async function testConnection(name, url) {
     console.log(`✅ SUCCESS! Connected to database.`);
     console.log(`Database version: ${result[0]?.version?.substring(0, 50)}...`);
     
-    await client.end();
     return { success: true, url };
   } catch (error) {
     console.log(`❌ FAILED: ${error.message}`);
@@ -83,6 +89,16 @@ async function testConnection(name, url) {
       }
     }
     return { success: false, error: error.message, url };
+  } finally {
+    // Ensure connection is closed in all cases
+    if (client) {
+      try {
+        await client.end();
+      } catch (closeError) {
+        // Ignore errors when closing connection
+        console.error('Error closing database connection:', closeError.message);
+      }
+    }
   }
 }
 

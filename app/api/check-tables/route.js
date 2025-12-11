@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import postgres from 'postgres';
 
 export async function GET() {
+  let client = null;
   try {
     const dbUrl = process.env.DATABASE_URL;
     if (!dbUrl) {
@@ -11,7 +12,7 @@ export async function GET() {
       }, { status: 500 });
     }
 
-    const client = postgres(dbUrl, { max: 1, ssl: 'require' });
+    client = postgres(dbUrl, { max: 1, ssl: 'require' });
     
     // Check both tables
     const reviewsCheck = await client`
@@ -32,8 +33,6 @@ export async function GET() {
 
     const reviewsExists = reviewsCheck[0]?.exists || false;
     const registrationsExists = registrationsCheck[0]?.exists || false;
-
-    await client.end();
 
     return NextResponse.json({
       success: true,
@@ -86,6 +85,16 @@ CREATE INDEX IF NOT EXISTS registrations_created_at_idx ON registrations(created
       error: error.message,
       code: error.code
     }, { status: 500 });
+  } finally {
+    // Ensure connection is closed in all cases
+    if (client) {
+      try {
+        await client.end();
+      } catch (closeError) {
+        // Ignore errors when closing connection
+        console.error('Error closing database connection:', closeError);
+      }
+    }
   }
 }
 

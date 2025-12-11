@@ -4,6 +4,7 @@ import { sql } from 'drizzle-orm';
 import postgres from 'postgres';
 
 export async function GET() {
+  let client = null;
   try {
     // Get the postgres client directly for raw queries
     const dbUrl = process.env.DATABASE_URL;
@@ -14,7 +15,7 @@ export async function GET() {
       }, { status: 500 });
     }
 
-    const client = postgres(dbUrl, { max: 1, ssl: 'require' });
+    client = postgres(dbUrl, { max: 1, ssl: 'require' });
     
     // Check if table exists
     const result = await client`
@@ -61,8 +62,6 @@ CREATE UNIQUE INDEX IF NOT EXISTS email_idx ON reviews(email);
       ORDER BY ordinal_position;
     `;
 
-    await client.end();
-
     return NextResponse.json({
       success: true,
       tableExists: true,
@@ -102,6 +101,16 @@ CREATE UNIQUE INDEX IF NOT EXISTS email_idx ON reviews(email);
         '4. Test connection formats at: /api/db-diagnose'
       ]
     }, { status: 500 });
+  } finally {
+    // Ensure connection is closed in all cases
+    if (client) {
+      try {
+        await client.end();
+      } catch (closeError) {
+        // Ignore errors when closing connection
+        console.error('Error closing database connection:', closeError);
+      }
+    }
   }
 }
 

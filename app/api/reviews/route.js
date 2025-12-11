@@ -50,7 +50,7 @@ export async function GET(req) {
             '5. Select "URI" format (NOT JDBC)',
             '6. IMPORTANT: Change "Method" dropdown from "Direct connection" to "Connection pooling"',
             '7. Copy the connection string EXACTLY as shown (it will have pooler.supabase.com)',
-            '8. Replace [YOUR-PASSWORD] with your actual database password: Raghubhunia8159',
+            '8. Replace [YOUR-PASSWORD] with your actual database password',
             '9. Update DATABASE_URL in .env.local with the EXACT string',
             '10. Restart your dev server (Ctrl+C then npm run dev)',
             '',
