@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 export async function GET() {
   // Extract project ref from DATABASE_URL or use default
   const currentUrl = process.env.DATABASE_URL;
-  const projectRef = currentUrl?.match(/postgres\.([^.]+)@/)?.?.[1] || currentUrl?.match(/@aws-[^-]+-([^.]+)\.pooler/)?.?.[1] || 'xjtvpdwngewpgvzmwqzt';
+  const projectRef = currentUrl?.match(/postgres\.([^.]+)@/)?.[1] || currentUrl?.match(/@aws-[^-]+-([^.]+)\.pooler/)?.[1] || 'xjtvpdwngewpgvzmwqzt';
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   
@@ -111,15 +111,15 @@ export async function GET() {
 
   // Test direct postgres connections
   for (const format of formats) {
+    let client = null;
     try {
-      const client = postgres(format.url, {
+      client = postgres(format.url, {
         max: 1,
         ssl: 'require',
         connect_timeout: 3
       });
       
       await client`SELECT 1 as test`;
-      await client.end();
       
       results.push({
         ...format,
@@ -143,6 +143,16 @@ export async function GET() {
         hostname: error.cause?.hostname,
         code: error.cause?.code
       });
+    } finally {
+      // Ensure connection is closed in all cases
+      if (client) {
+        try {
+          await client.end();
+        } catch (closeError) {
+          // Ignore errors when closing connection
+          console.error('Error closing database connection:', closeError);
+        }
+      }
     }
   }
 
