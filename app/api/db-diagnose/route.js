@@ -131,7 +131,7 @@ export async function GET() {
       return NextResponse.json({
         success: true,
         workingFormat: format,
-        message: `✅ Found working connection format: ${format.name}`,
+        message: `Found working connection format: ${format.name}`,
         updateEnv: `DATABASE_URL=${format.url}`,
         allResults: results
       });
@@ -159,7 +159,7 @@ export async function GET() {
   // None worked
   return NextResponse.json({
     success: false,
-    message: '❌ None of the connection formats worked',
+    message: 'None of the connection formats worked',
     currentUrl: currentUrl?.replace(/:[^:@]+@/, ':****@') || 'Not set',
     results: results,
     criticalInstructions: {
